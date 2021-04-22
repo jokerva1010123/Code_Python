@@ -49,6 +49,8 @@ def calc(a, b, c, d, x, y, z):
     return cnt
 
 def draw(point1, point2, roots):
+    print(point1)
+    print(point2)
     point1_x = point1[::2]
     point1_y = point1[1::2]
     point2_x = point2[::2]
@@ -62,10 +64,12 @@ def draw(point1, point2, roots):
     for x in range(len(point1_x)):
         for y in range(x + 1, len(point1_x)):
             for z in range(y + 1, len(point1_x)):
+                print(triangle(point1_x, point1_y, x, y, z))
                 if not triangle(point1_x, point1_y, x, y, z):
                     continue
                 cnt1 = calc(point1_x, point1_y, point1_x, point1_x, x, y, z) - 3
                 cnt2 = calc(point1_x, point1_y, point2_x, point2_y, x, y, z)
+                print(cnt1, cnt2)
                 if cnt1 != cnt2 or (cnt1 == cnt2 and cnt1 == 0):
                     messagebox.showinfo('Error', 'Треугольник не найден.')
                     return
@@ -98,6 +102,8 @@ def draw(point1, point2, roots):
     s_y = (600 - 50)/(ymax - ymin)
     o_x = -xmin * s_x + 25
     o_y = -ymin * s_y + 25
+    print(point1)
+    print(point2)
     for i in range(len(point1_x)):
         x = point1_x[i] * s_x + o_x
         y = 600 - (point1_y[i] * s_y + o_y)
@@ -139,7 +145,6 @@ def paint(event):
     xy1.append(event.x)
     xy1.append(event.y)
     c1.create_oval(x1, y1, x2, y2, fill=python_green)
-    print(xy1)
     return event
 
 def delt(event):
@@ -150,7 +155,6 @@ def delt(event):
     xy2.append(event.x)
     xy2.append(event.y)
     c1.create_oval(x1, y1, x2, y2, fill=python_white, outline=python_white)
-    print(xy2)
     return event
   
 def special():
@@ -167,10 +171,10 @@ def special():
     for line in range(0, height, 20):
         c1.create_line([(0, line), (width, line)], fill='black', tags='grid_line_h')
     c1.pack()
-    root.bind('<Button-1>', paint)
+    root.bind('<Button-2>', paint)
     root.bind('<Button-3>', delt)
     e_but =  Button(root, text='Visualization',
-        font='consolas 12', command = lambda: draw(xy1[0:len(xy1) - 2], xy2, root))
+        font='consolas 12', command = lambda: draw(xy1, xy2, root))
     e_but.pack()
     exit_but =  Button(root, text='Exit',
             font='consolas 12', command=root.destroy)
